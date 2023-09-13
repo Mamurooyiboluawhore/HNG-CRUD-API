@@ -1,46 +1,54 @@
 #!/usr/bin/python3
-from flask import Flask
-import db
+from flask import Flask, request, jsonify
+from db import db, People
 
 app = Flask(__name__)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///people.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.route('/api', methods=['POST'])
+db.init_app(app)
 
 
+@app.route("/api", methods=["POST"])
 def create_person():
     data = request.json
-    new_person = Person(**data)
+    new_person = People(**data)
     db.session.add(new_person)
     db.session.commit()
-    return jsonify({'message': 'Person created successufully'}), 201
+    return jsonify({"message": "Person created successufully"}), 201
 
 
-app.route('/api/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-
-
+@app.route("/api/<int:id>", methods=["GET", "PUT", "DELETE"])
 def manage_person(id):
-    person = Person.query.get_or_404(id)
+    person = People.query.get_or_404(id)
 
-    if request.method == 'GET':
-        return jsonify({
-            'id': person.id,
-            'name': person.name,
-            'age':  person.age,
-            'email': person.email
-        })
-    elif request.method == 'PUT':
+    if request.method == "GET":
+        return jsonify(
+            {
+                "id": person.id,
+                "name": person.name,
+                "age": person.age,
+                "email": person.email,
+            }
+        )
+    elif request.method == "PUT":
         data = request.json
-        person.name = data.get('name', person.name)
-        person.age = data.get('age', person.age)
-        person.email = data.get('email', person.email)
+        person.name = data.get("name", person.name)
+        person.age = data.get("age", person.age)
+        person.email = data.get("email", person.email)
+        db.session.add(person)
         db.session.commit()
+        return jsonify({"message": "Person updated successufully"}), 201
 
-    elif request.method == 'DELETE':
+    elif request.method == "DELETE":
         db.session.delete(person)
         db.session.commit()
-        return jsonify({'message': 'Person deleted successfully'}), 204
+        return jsonify({"message": "Person deleted successufully"}), 201
 
 
-if __name__ == '__main__':
+with app.app_context():
+    db.create_all()
+
+if __name__ == "__main__":
     app.run(debug=True)
