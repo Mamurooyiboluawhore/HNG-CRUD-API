@@ -12,17 +12,22 @@
 
 ## Installation
 - Clone the Github repository for the API
-``git clone https://github.com/Mamurooyiboluawhore/HNG-CRUD-API```
+```clone
+  git clone https://github.com/Mamurooyiboluawhore/HNG-CRUD-API
+```
 
 - Navigate to the project directory.
   ` cd route.py `
 - Navigate to the project directory.
+- create and activate a virtual enviroment
 ```venv
     python -m venv venv 
     source venv/bin/activate 
 ```
 - Install the required packages.
-` pip install Flask Flask-SQLAlchemy `
+```install
+   pip install Flask Flask-SQLAlchemy
+```
 - python app.py
 
 ## API Endpoints
