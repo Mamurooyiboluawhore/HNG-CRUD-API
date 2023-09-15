@@ -15,13 +15,14 @@
 ``git clone https://github.com/Mamurooyiboluawhore/HNG-CRUD-API```
 
 - Navigate to the project directory.
-``` cd route.py ```
+  ` cd route.py `
 - Navigate to the project directory.
-``` python -m venv venv 
-    source venv/bin/activate ```
-
+```venv
+    python -m venv venv 
+    source venv/bin/activate 
+```
 - Install the required packages.
-``pip install Flask Flask-SQLAlchemy``
+` pip install Flask Flask-SQLAlchemy `
 - python app.py
 
 ## API Endpoints
