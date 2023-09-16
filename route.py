@@ -35,15 +35,11 @@ def manage_person(id):
             {
                 "id": person.id,
                 "name": person.name,
-                "age": person.age,
-                "email": person.email,
             }
         )
     elif request.method == "PUT":
         data = request.json
         person.name = data.get("name", person.name)
-        person.age = data.get("age", person.age)
-        person.email = data.get("email", person.email)
         db.session.add(person)
         db.session.commit()
         return jsonify({"message": "Person updated successufully"}), 201
