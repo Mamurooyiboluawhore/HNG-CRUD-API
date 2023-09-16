@@ -10,13 +10,20 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 
-@app.route("/api", methods=["POST"])
+@app.route('/api', methods=['POST'])
 def create_person():
     data = request.json
-    new_person = People(**data)
-    db.session.add(new_person)
-    db.session.commit()
-    return jsonify({"message": "Person created successufully"}), 201
+    if 'name' in data:
+        name = data['name']
+        new_person = Person(name=name)
+        db.session.add(new_person)
+        db.session.commit()
+        return jsonify({
+            "id": new_person.id,
+            "name": new_person.name
+        }), 201
+    else:
+        return jsonify({"message": "Name is required in the request data"}), 400
 
 
 @app.route("/api/<int:id>", methods=["GET", "PUT", "DELETE"])
