@@ -15,7 +15,7 @@ def create_person():
     data = request.json
     if 'name' in data:
         name = data['name']
-        new_person = Person(name=name)
+        new_person = People(name=name)
         db.session.add(new_person)
         db.session.commit()
         return jsonify({
